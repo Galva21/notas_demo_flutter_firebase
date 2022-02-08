@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "537947727283",
+    "project_id": "notas-demo-4b6b4",
+    "storage_bucket": "notas-demo-4b6b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537947727283:android:c33f73d7638aab68c157c6",
+        "android_client_info": {
+          "package_name": "com.example.notas_flutter_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537947727283-4hvsrfaed92p8qa5lgcbrcpdrnib46tp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzMmyPOx5-2YnsybOl87VD9r-mKlvcVpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537947727283-4hvsrfaed92p8qa5lgcbrcpdrnib46tp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
