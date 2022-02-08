@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notas_flutter_firebase/pages/nueva_nota.dart';
 import 'package:notas_flutter_firebase/pages/pages.dart';
 import 'package:notas_flutter_firebase/values/tema.dart';
 
@@ -11,6 +12,9 @@ class MyApp extends StatelessWidget {
       theme: miTema(context),
       title: 'Notas App',
       home: HomePage(),
+      routes: <String, WidgetBuilder>{
+        '/nuevaNota': (BuildContext context) => ModalNuevaNota(),
+      },
     );
   }
 }
