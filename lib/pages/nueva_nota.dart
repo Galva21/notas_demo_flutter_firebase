@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notas_flutter_firebase/services/appstate.dart';
 import 'package:notas_flutter_firebase/services/userservices.dart';
 import 'package:notas_flutter_firebase/values/tema.dart';
+import 'package:provider/provider.dart';
 
 class ModalNuevaNota extends StatefulWidget {
   @override
@@ -60,7 +62,9 @@ class _ModalNuevaNotaState extends State<ModalNuevaNota> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formularioKey.currentState!.validate()) {
-                          bool respuesta = await UserServices().saveNotas(
+                          bool respuesta = await Provider.of<AppState>(context,
+                                  listen: false)
+                              .saveNota(
                             _tituloController.text,
                             _contenidoController.text,
                           );

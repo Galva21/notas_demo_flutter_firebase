@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notas_flutter_firebase/models/nota.dart';
+import 'package:notas_flutter_firebase/services/appstate.dart';
 import 'package:notas_flutter_firebase/services/userservices.dart';
 import 'package:notas_flutter_firebase/values/tema.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,19 +11,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AppState? estado;
   @override
   Widget build(BuildContext context) {
+    estado = Provider.of<AppState>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notas'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {});
-            },
-            icon: Icon(Icons.refresh),
-          )
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (() {
@@ -36,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
       ),
       body: FutureBuilder(
-        future: UserServices().getNotas(),
+        future: estado!.obtenerNotas(),
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           List misnotas = snapshot.data ?? [];
           return ListView(
@@ -45,7 +41,16 @@ class _HomePageState extends State<HomePage> {
                 ListTile(
                   title: Text(nota.titulo!),
                   subtitle: Text(nota.contenido!),
-                )
+                  trailing: IconButton(
+                    onPressed: () {
+                      estado!.borrarNota(nota.key);
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red.shade400,
+                    ),
+                  ),
+                ),
             ],
           );
         },

@@ -5,19 +5,14 @@ class UserServices {
   Future<List<Nota>> getNotas() async {
     List<Nota> misNotas = [];
     try {
-      DatabaseEvent db = await FirebaseDatabase.instance.ref().child('notes').once();
+      DatabaseEvent db =
+          await FirebaseDatabase.instance.ref().child('notes').once();
       dynamic snap = db.snapshot;
       if (snap.exists) {
-        snap.value.forEach((key, value){
-          Map mapa = {
-            'key':key,
-            ...value
-          };
+        snap.value.forEach((key, value) {
+          Map mapa = {'key': key, ...value};
           Nota nuevaNota = Nota(
-            contenido: mapa['body'],
-            key: mapa['key'],
-            titulo: mapa['title']
-          );
+              contenido: mapa['body'], key: mapa['key'], titulo: mapa['title']);
           misNotas.add(nuevaNota);
         });
       } else {
@@ -36,6 +31,16 @@ class UserServices {
           .child('notes')
           .push()
           .set({'title': titulo, 'body': contenido});
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> eliminarNota(String? key) async {
+    try {
+      await FirebaseDatabase.instance.ref().child('notes').child(key!).remove();
       return true;
     } catch (e) {
       print(e);
