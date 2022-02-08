@@ -3,16 +3,29 @@ import 'package:notas_flutter_firebase/models/nota.dart';
 import 'package:notas_flutter_firebase/services/userservices.dart';
 import 'package:notas_flutter_firebase/values/tema.dart';
 
-class HomePage extends StatelessWidget {
-  
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Notas')),
+      appBar: AppBar(
+        title: const Text('Notas'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {});
+            },
+            icon: Icon(Icons.refresh),
+          )
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: (() {
-          Navigator.pushNamed(context, '/nuevaNota');
+          Navigator.pushNamed(context, 'nuevaNota');
           // showModalBottomSheet(
           //   context: context,
           //   builder: (BuildContext context) {

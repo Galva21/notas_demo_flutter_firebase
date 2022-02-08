@@ -1,16 +1,45 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:notas_flutter_firebase/models/nota.dart';
 
 class UserServices {
   Future<List<Nota>> getNotas() async {
-    List<Nota> misNotas = [
-      Nota(titulo: "Titulo 1", contenido: "Contenido de la nota 1"),
-      Nota(titulo: "Titulo 2", contenido: "Contenido de la nota 2"),
-      Nota(titulo: "Titulo 3", contenido: "Contenido de la nota 3"),
-      Nota(titulo: "Titulo 4", contenido: "Contenido de la nota 4"),
-    ];
-
-    return misNotas;
+    List<Nota> misNotas = [];
+    try {
+      DatabaseEvent db = await FirebaseDatabase.instance.ref().child('notes').once();
+      dynamic snap = db.snapshot;
+      if (snap.exists) {
+        snap.value.forEach((key, value){
+          Map mapa = {
+            'key':key,
+            ...value
+          };
+          Nota nuevaNota = Nota(
+            contenido: mapa['body'],
+            key: mapa['key'],
+            titulo: mapa['title']
+          );
+          misNotas.add(nuevaNota);
+        });
+      } else {
+        print('no hay nada');
+      }
+      return misNotas;
+    } catch (e) {
+      return misNotas;
+    }
   }
 
-  saveNotas(String titulo, String contenido) {}
+  Future<bool> saveNotas(String titulo, String contenido) async {
+    try {
+      await FirebaseDatabase.instance
+          .ref()
+          .child('notes')
+          .push()
+          .set({'title': titulo, 'body': contenido});
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }

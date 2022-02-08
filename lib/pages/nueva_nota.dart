@@ -33,7 +33,7 @@ class _ModalNuevaNotaState extends State<ModalNuevaNota> {
                   decoration: const InputDecoration(
                     labelText: "Titulo de la nota",
                   ),
-                  validator: (String? dato){
+                  validator: (String? dato) {
                     if (dato!.isEmpty) {
                       return 'Este campo es requerido';
                     }
@@ -45,7 +45,7 @@ class _ModalNuevaNotaState extends State<ModalNuevaNota> {
                     labelText: "Contenido",
                   ),
                   maxLines: 10,
-                  validator: (String? dato){
+                  validator: (String? dato) {
                     if (dato!.isEmpty) {
                       return 'Este campo es requerido';
                     }
@@ -58,14 +58,30 @@ class _ModalNuevaNotaState extends State<ModalNuevaNota> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: (() async{
+                      onPressed: () async {
                         if (_formularioKey.currentState!.validate()) {
-                          await UserServices().saveNotas(
+                          bool respuesta = await UserServices().saveNotas(
                             _tituloController.text,
                             _contenidoController.text,
                           );
+
+                          if (respuesta) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Nota agregada correctamente'),
+                              backgroundColor: Colors.green,
+                            ));
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content:
+                                  Text('Hubo un problema al agregar la nota'),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
                         }
-                      }),
+                      },
                       child: Text('Aceptar'),
                     ),
                     const SizedBox(
